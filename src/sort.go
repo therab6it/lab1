@@ -72,10 +72,15 @@ func main() {
 			log.Fatalf("Error reading key: %v\n", err)
 		}
 		// Read the value
-		val_buffer := make([]byte, length-10)
-		_, err = io.ReadFull(inFile, val_buffer)
-		if err != nil {
-			log.Fatalf("Error reading value: %v\n", err)
+		var val_buffer []byte
+		if length != 10 {
+			val_buffer = make([]byte, length-10)
+			_, err = io.ReadFull(inFile, val_buffer)
+			if err != nil {
+				log.Fatalf("Error reading value: %v\n", err)
+			}
+		} else {
+			val_buffer = make([]byte, 0)
 		}
 
 		// Store the record
